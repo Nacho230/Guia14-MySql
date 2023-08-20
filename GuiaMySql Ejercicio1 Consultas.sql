@@ -1,0 +1,27 @@
+select * from empleados;
+select * from departamentos;
+select nombre_depto from departamentos;
+select nombre, sal_emp from empleados;
+select comision_emp from empleados;
+select * from empleados where cargo_emp = 'Secretaria';
+select * from empleados where cargo_emp = 'Vendedor' order by nombre;
+select nombre, cargo_emp,sal_emp from empleados order by sal_emp;
+select nombre  from empleados INNER JOIN departamentos ON empleados.cargo_emp like 'jefe%' && (empleados.id_depto =  departamentos.id_depto &&  departamentos.ciudad = 'Ciudad Real');
+/*no se*/
+select nombre, sal_emp, comision_emp from empleados where id_depto = 2000 order by comision_emp;
+select nombre , (select sum(sal_emp+comision_emp) + 500) from empleados where empleados.id_depto = 3000 group by nombre order by nombre ASC;
+select * from empleados where nombre LIKE "j%";
+select sal_emp, comision_emp, (select sum(sal_emp+comision_emp)), nombre from empleados where comision_emp > 1000 group by nombre, sal_emp, comision_emp;
+select sal_emp, nombre from empleados where  comision_emp < 1;
+select * from empleados where comision_emp > sal_emp;
+select * from empleados where comision_emp <= (sal_emp * 0.3);
+select * from empleados where nombre NOT LIKE "%ma%";
+select nombre, nombre_depto from empleados inner join departamentos ON (empleados.id_depto = departamentos.id_depto && departamentos.nombre_depto = 'Ventas') OR (empleados.id_depto = departamentos.id_depto && departamentos.nombre_depto = 'investigacion') OR (empleados.id_depto = departamentos.id_depto && departamentos.nombre_depto = 'mantenimiento');
+select nombre, departamentos.nombre_depto from empleados inner join departamentos ON (empleados.id_depto = departamentos.id_depto && departamentos.nombre_depto != 'Ventas') AND (empleados.id_depto = departamentos.id_depto && departamentos.nombre_depto != 'investigacion') AND (empleados.id_depto = departamentos.id_depto && departamentos.nombre_depto != 'mantenimiento');
+select * from empleados where sal_emp  = (select MAX(sal_emp) from empleados);
+select nombre from empleados order by nombre desc limit 1;
+select MAX(sal_emp), MIN(sal_emp), (select MAX(sal_emp) - MIN(sal_emp) from empleados)  from empleados;
+select nombre_depto, round(AVG(sal_emp)) from empleados inner join departamentos on empleados.id_depto = departamentos.id_depto group by nombre_depto;
+select nombre_depto, count(*) conta from empleados inner join departamentos on empleados.id_depto = departamentos.id_depto group by nombre_depto having conta > 3 ;
+select nombre_depto, count(*) conta from empleados inner join departamentos on empleados.id_depto = departamentos.id_depto group by nombre_depto having conta = 0;
+select nombre, sal_emp, id_depto from empleados where sal_emp > (select AVG(sal_emp) as prom from empleados)  order by id_depto;
